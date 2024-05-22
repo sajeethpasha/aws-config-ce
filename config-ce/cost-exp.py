@@ -12,6 +12,7 @@ from io import BytesIO
 from io import StringIO 
 import gzip
 import pandas as pd
+import csv
 
 def printD(name,object):
     print('-------------------'+name+'---------------------------------')
@@ -23,6 +24,8 @@ def getCeDf(bucketName,fileName):
       s3 = boto3.resource('s3')
      
       obj = s3.Object(bucketName,fileName)
+      
+      
       n = obj.get()['Body'].read()
       gzipfile = BytesIO(n)
       gzipfile = gzip.GzipFile(fileobj=gzipfile)
@@ -70,6 +73,7 @@ def getCostExpDfs():
       contentBytes=unzipCeDf(BUCKET_NAME,fl['Key'])
       #    printD('fileBytes',contentBytes)
       s=str(contentBytes,'utf-8')
+      
       TESTDATA = StringIO(s)
       df  = pd.read_csv(TESTDATA, sep=",")
       ceDfs.append(df)
@@ -89,11 +93,11 @@ def getCostExpDfs():
 
   
 # ================================================================    
-# BUCKET_NAME = "akhil-s3-bucket-760"
-# fileName='cost//sample-data-export/data/BILLING_PERIOD=2024-05/2024-05-18T20:16:37.306Z-3695a728-d559-40bd-ac30-ffc97b552489/sample-data-export-00001.csv.gz'
+BUCKET_NAME = "akhil-s3-bucket-760"
+fileName='cost//sample-data-export/data/BILLING_PERIOD=2024-05/2024-05-18T20:16:37.306Z-3695a728-d559-40bd-ac30-ffc97b552489/sample-data-export-00001.csv.gz'
 
-BUCKET_NAME = "sample-143"
-fileName='sample-data-export-00001.csv'
+# BUCKET_NAME = "sample-143"
+# fileName='sample-data-export-00001.csv'
 
 
 # getCeDf(BUCKET_NAME,key)
@@ -106,18 +110,47 @@ fileName='sample-data-export-00001.csv'
 # printD('file',file)
 # filPath = file['Prefix']
 
-s3 = boto3.resource('s3')
-obj = s3.Object(BUCKET_NAME,fileName)
-printD('obj',obj)
-n = obj.get()['Body'].read()
+# s3 = boto3.resource('s3')
+# obj = s3.Object(BUCKET_NAME,fileName)
+# printD('obj',obj)
+# n = obj.get()['Body'].read()
      
 # contentBytes=unzipCeDf(BUCKET_NAME,fileName)
 # printD('contentBytes',contentBytes)
-s=str(n,'utf-8')
-TESTDATA = StringIO(s)
-df  = pd.read_csv(TESTDATA, sep=",")  
-printD('df',df)
-printD('df size:',len(df) )
+try:
+    s3 = boto3.resource('s3')
+    
+    obj = s3.get_object(BUCKET_NAME,fileName)
+    # n = obj.get()['Body'].read()
+    # printD('n...',n)
+    with gzip.GzipFile(fileobj=obj.get()["Body"],mode='rb') as gzipped_csv_file:
+    #   content = gzipfile.read()
+      csv_reader = csv.reader(StringIO(gzipped_csv_file.read().decode('utf-8')))
+      i = 0
+      for index, line in  enumerate(csv_reader, start=1):
+            # process_line(line)
+        i = i+1
+        print(index)
+            
+   
+
+    # gzipfile = BytesIO(n)
+    # gzipfile = gzip.GzipFile(fileobj=gzipfile)
+    # content = gzipfile.read()
+    # #  printD('content',content)
+    # s=str(content,'utf-8')
+    # TESTDATA = StringIO(s)
+    # df  = pd.read_csv(TESTDATA, sep=",")
+    # printD('content',df)
+except Exception as e:
+    print(e)
+    raise e
+  
+# s=str(n,'utf-8')
+# TESTDATA = StringIO(s)
+# df  = pd.read_csv(TESTDATA, sep=",")  
+# printD('df',df)
+# printD('df size:',len(df) )
 # for fl in fls:
 #  #    printD('fl',fl)
 #  contentBytes=unzipCeDf(BUCKET_NAME,fl['Key'])

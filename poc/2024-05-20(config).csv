@@ -1,0 +1,60 @@
+tags,configurationItemVersion,configurationItemCaptureTime,configurationItemCaptureDate,configurationStateId,awsAccountId,configurationItemStatus,resourceType,resourceId,awsRegion
+{},1.3,2024-05-20T18:32:21.344Z,2024-05-20,1716229941344,076395046979,OK,AWS::S3::Bucket,aws-costs-gov,us-east-1
+{},1.3,2024-05-20T18:04:17.714Z,2024-05-20,1716228257714,076395046979,OK,AWS::S3::Bucket,mmi-transfer-test-sai-manaswini,us-east-1
+{},1.3,2024-05-20T17:59:53.994Z,2024-05-20,1716227993994,076395046979,OK,AWS::S3::Bucket,mmi-desti-sai,us-east-1
+"{'Environment': 'sandbox', 'Name': 'vpc-aspera-sandbox'}",1.3,2024-05-20T15:41:50.182Z,2024-05-20,1716219710182,076395046979,OK,AWS::EC2::VPC,vpc-0175d51e695c62cfd,us-east-1
+{},1.3,2024-05-20T15:41:50.010Z,2024-05-20,1716219710010,076395046979,OK,AWS::EC2::SecurityGroup,sg-093ce1b7d20e60c5b,us-east-1
+"{'app': 'map-276-rps', 'Environment': 'sandbox', 'Name': 'vpc-aspera-sandbox_public-2-b'}",1.3,2024-05-20T15:41:49.282Z,2024-05-20,1716219709282,076395046979,OK,AWS::EC2::Subnet,subnet-071078ff88d35e5de,us-east-1
+"{'LastAttachTime': '2024-05-20T14:01:34+00:00', 'LastAttachInstance': 'i-0fb1f509f61179fff', 'Name': 'grafana'}",1.3,2024-05-20T14:18:47.325Z,2024-05-20,1716214727325,076395046979,OK,AWS::EC2::Volume,vol-0eb2de481997187b8,us-east-1
+"{'c7n_delete_untagged_resource': 'Missing Product and Environment tags: terminate@2024/05/21', 'Name': 'blue-grafana'}",1.3,2024-05-20T14:01:22.688Z,2024-05-20,1716213682688,076395046979,OK,AWS::EC2::Instance,i-082700aad497a4786,us-east-1
+{},1.3,2024-05-20T13:03:19.731Z,2024-05-20,1716210199731,076395046979,OK,AWS::Lambda::Function,map-276-exec-tf,us-east-1
+{},1.3,2024-05-20T07:29:28.518Z,2024-05-20,1716190168518,076395046979,OK,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{'STAGE': 'unis-sandbox'},1.3,2024-05-20T06:09:09.230Z,2024-05-20,1716185349230,076395046979,OK,AWS::CloudFormation::Stack,arn:aws:cloudformation:us-east-1:076395046979:stack/edgectms-gateway-envprep-unis-sandbox/04a77900-166f-11ef-9846-1291a795f9c7,us-east-1
+{},1.3,2024-05-20T03:41:50.003Z,2024-05-20,1716176510003,076395046979,OK,AWS::EC2::SecurityGroup,sg-0985e2b216561b8e5,us-east-1
+"{'LastAttachTime': '2024-05-19T23:24:35+00:00', 'LastAttachInstance': 'i-082700aad497a4786', 'Name': 'blue-grafana'}",1.3,2024-05-20T00:19:24.113Z,2024-05-20,1716164364113,076395046979,OK,AWS::EC2::Volume,vol-0d641dbdbffa67b9a,us-east-1
+{'STAGE': 'unis-sandbox'},1.3,2024-05-20T06:06:31.757Z,2024-05-20,1716185191757,076395046979,ResourceDiscovered,AWS::CloudFormation::Stack,arn:aws:cloudformation:us-east-1:076395046979:stack/edgectms-gateway-envprep-unis-sandbox/04a77900-166f-11ef-9846-1291a795f9c7,us-east-1
+{},1.3,2024-05-20T21:10:21.455Z,2024-05-20,1716239421455,076395046979,ResourceDiscovered,AWS::CloudFormation::Stack,arn:aws:cloudformation:us-east-1:076395046979:stack/StackSet-MemberAccountResourceTaggingIAMRole-26f308fb-f582-45fa-92d1-49f326eccaf8/50598900-16ed-11ef-b2a0-0e795d0e8797,us-east-1
+{},1.3,2024-05-20T14:03:58.125Z,2024-05-20,1716213838125,076395046979,ResourceDiscovered,AWS::Config::ResourceCompliance,AWS::EC2::SecurityGroup/sg-093ce1b7d20e60c5b,us-east-1
+{'STAGE': 'unis-sandbox'},1.3,2024-05-20T06:09:50.967Z,2024-05-20,1716185390967,076395046979,ResourceDiscovered,AWS::DynamoDB::Table,EdgeCTMSCustomers-unis-sandbox,us-east-1
+"{'c7n_delete_untagged_resource': 'Missing Product and Environment tags: terminate@2024/05/21', 'Name': 'grafana'}",1.3,2024-05-20T14:03:28.066Z,2024-05-20,1716213808066,076395046979,ResourceDiscovered,AWS::EC2::Instance,i-0fb1f509f61179fff,us-east-1
+{},1.3,2024-05-20T14:03:28.453Z,2024-05-20,1716213808453,076395046979,ResourceDiscovered,AWS::EC2::NetworkInterface,eni-0ff9fa50c5f60ec44,us-east-1
+{},1.3,2024-05-20T14:03:27.768Z,2024-05-20,1716213807768,076395046979,ResourceDiscovered,AWS::EC2::SecurityGroup,sg-093ce1b7d20e60c5b,us-east-1
+{},1.3,2024-05-20T14:03:28.585Z,2024-05-20,1716213808585,076395046979,ResourceDiscovered,AWS::EC2::SecurityGroup,sg-093ce1b7d20e60c5b,us-east-1
+{},1.3,2024-05-20T08:41:53.306Z,2024-05-20,1716194513306,076395046979,ResourceDiscovered,AWS::EC2::SubnetRouteTableAssociation,rtbassoc-036a58ad99c71ceb8,us-east-1
+{},1.3,2024-05-20T17:48:56.138Z,2024-05-20,1716227336138,076395046979,ResourceDeleted,AWS::EC2::SubnetRouteTableAssociation,rtbassoc-06214df3cc3dc48e3,us-east-1
+{},1.3,2024-05-20T17:48:55.905Z,2024-05-20,1716227335905,076395046979,ResourceDeleted,AWS::EC2::SubnetRouteTableAssociation,rtbassoc-094234eaf09cfd42b,us-east-1
+{},1.3,2024-05-20T14:03:28.380Z,2024-05-20,1716213808380,076395046979,ResourceDiscovered,AWS::EC2::Volume,vol-0eb2de481997187b8,us-east-1
+{},1.3,2024-05-20T06:09:00.248Z,2024-05-20,1716185340248,076395046979,ResourceDiscovered,AWS::KMS::Alias,alias/edgectmsapigateway_unis-sandbox,us-east-1
+{'STAGE': 'unis-sandbox'},1.3,2024-05-20T06:09:00.344Z,2024-05-20,1716185340344,076395046979,ResourceDiscovered,AWS::KMS::Key,f272f02f-2008-4756-9875-1e29e86c9920,us-east-1
+{},1.3,2024-05-20T07:14:25.962Z,2024-05-20,1716189265962,076395046979,ResourceDiscovered,AWS::Lambda::Function,map-276-exec-tf,us-east-1
+{},1.3,2024-05-20T14:12:07.902Z,2024-05-20,1716214327902,076395046979,ResourceDiscovered,AWS::Lambda::Function,aws-costs-gov,us-east-1
+"{'aws:cloudformation:stack-name': 'edgectms-gateway-envprep-unis-sandbox', 'aws:cloudformation:logical-id': 'ServerlessDeploymentBucket', 'aws:cloudformation:stack-id': 'arn:aws:cloudformation:us-east-1:076395046979:stack/edgectms-gateway-envprep-unis-sandbox/04a77900-166f-11ef-9846-1291a795f9c7', 'STAGE': 'unis-sandbox'}",1.3,2024-05-20T06:06:52.183Z,2024-05-20,1716185212183,076395046979,ResourceDiscovered,AWS::S3::Bucket,edgectms-gateway-envprep--serverlessdeploymentbuck-bpgw86lvpt0e,us-east-1
+{},1.3,2024-05-20T07:10:07.663Z,2024-05-20,1716189007663,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-exec-src,us-east-1
+{},1.3,2024-05-20T07:27:23.382Z,2024-05-20,1716190043382,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T05:43:02.777Z,2024-05-20,1716183782777,076395046979,ResourceDeleted,AWS::S3::Bucket,t51bficebergrave2,us-east-1
+{},1.3,2024-05-20T05:42:53.982Z,2024-05-20,1716183773982,076395046979,ResourceDiscovered,AWS::S3::Bucket,t51bfraveiceberg,us-east-1
+{},1.3,2024-05-20T10:07:41.775Z,2024-05-20,1716199661775,076395046979,ResourceDiscovered,AWS::S3::Bucket,team51raveicebergblue,us-east-1
+{},1.3,2024-05-20T14:57:35.740Z,2024-05-20,1716217055740,076395046979,ResourceDiscovered,AWS::S3::Bucket,aws-costs-gov,us-east-1
+{},1.3,2024-05-20T13:05:31.326Z,2024-05-20,1716210331326,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-test-1,us-east-1
+{},1.3,2024-05-20T12:41:29.763Z,2024-05-20,1716208889763,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-test-2,us-east-1
+{},1.3,2024-05-20T11:10:18.807Z,2024-05-20,1716203418807,076395046979,ResourceDeleted,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T11:16:46.061Z,2024-05-20,1716203806061,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T11:38:25.872Z,2024-05-20,1716205105872,076395046979,ResourceDeleted,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T11:55:53.624Z,2024-05-20,1716206153624,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T12:02:24.949Z,2024-05-20,1716206544949,076395046979,ResourceDeleted,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T12:04:35.364Z,2024-05-20,1716206675364,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-tf-test-1,us-east-1
+{},1.3,2024-05-20T11:36:14.996Z,2024-05-20,1716204974996,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-tf-test-2,us-east-1
+{},1.3,2024-05-20T11:38:27.915Z,2024-05-20,1716205107915,076395046979,ResourceDeleted,AWS::S3::Bucket,map-276-tf-test-2,us-east-1
+{},1.3,2024-05-20T11:51:41.579Z,2024-05-20,1716205901579,076395046979,ResourceDiscovered,AWS::S3::Bucket,map-276-tf-test-2,us-east-1
+{},1.3,2024-05-20T12:00:21.811Z,2024-05-20,1716206421811,076395046979,ResourceDeleted,AWS::S3::Bucket,map-276-tf-test-2,us-east-1
+{},1.3,2024-05-20T11:40:31.632Z,2024-05-20,1716205231632,076395046979,ResourceDiscovered,AWS::S3::Bucket,mmi-desti-sai,us-east-1
+{},1.3,2024-05-20T18:02:12.621Z,2024-05-20,1716228132621,076395046979,ResourceDiscovered,AWS::S3::Bucket,mmi-transfer-test-sai-manaswini,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:49.028Z,2024-05-20,1716180109028,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/9828eada-971c-45fd-9512-a86856284233_sandbox,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:49.344Z,2024-05-20,1716180109344,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/ArchonMultiaccountTesting-DVT-1,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:49.660Z,2024-05-20,1716180109660,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/ArchonMultiaccount_testing-DVT-3,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:49.975Z,2024-05-20,1716180109975,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/Maultiaccount_testing-1,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:50.290Z,2024-05-20,1716180110290,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/bda28615-420c-4640-a4ba-f926d0aa66d1_sandbox,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:50.603Z,2024-05-20,1716180110603,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/cd627433-fe06-4fc8-8680-98852d823077_sandbox,us-east-1
+{'ArchonSubscription': 'sandbox'},1.3,2024-05-20T04:41:50.916Z,2024-05-20,1716180110916,076395046979,ResourceDiscovered,AWS::SQS::Queue,https://sqs.us-east-1.amazonaws.com/076395046979/testing_DVT,us-east-1
+{},1.3,2024-05-20T09:48:11.149Z,2024-05-20,1716198491149,076395046979,ResourceDeleted,AWS::SageMaker::NotebookInstance,ai-test-instance,us-east-1
+{},1.3,2024-05-20T10:44:29.242Z,2024-05-20,1716201869242,076395046979,ResourceDeleted,AWS::StepFunctions::StateMachine,arn:aws:states:us-east-1:076395046979:stateMachine:enai_request_orchestrator,us-east-1
