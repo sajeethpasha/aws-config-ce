@@ -1,0 +1,26 @@
+-- create table query
+CREATE TABLE "confcost" (
+  "tags" text,
+  "configurationItemVersion" double precision,
+  "configurationItemCaptureTime" text,
+  "configurationItemCaptureDate" text,
+  "configurationStateId" bigint,
+  "awsAccountId" bigint,
+  "configurationItemStatus" text,
+  "resourceType" text,
+  "resourceId" text,
+  "awsRegion" text,
+  "identity_time_interval" text NULL,
+  "bill_billing_period_start_date" text NULL,
+  "bill_billing_period_end_date" text NULL,
+  "line_item_usage_start_date" text NULL,
+  "line_item_usage_end_date" text NULL,
+  "line_item_product_code" text NULL,
+  "line_item_operation" text NULL,
+  "line_item_resource_id" text NULL,
+  "line_item_unblended_rate" text NULL,
+  "line_item_unblended_cost" text NULL,
+  "line_item_blended_rate" text NULL,
+  "line_item_blended_cost" text NULL,
+  "line_item_usage_amount" text NULL
+);
