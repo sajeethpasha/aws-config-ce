@@ -5,6 +5,8 @@ import json
 import io
 import pandas as pd
 from sqlalchemy import create_engine
+import psycopg2
+from io import StringIO
 
 
 
@@ -141,10 +143,60 @@ def insert_db_records(df):
     df.to_sql('confcost', con=engine, if_exists='append', index=False)
     print("DataFrame uploaded successfully.")
 
-# ************************************************************************************************            
+# ************************************************************************************************   
+
+def table_creatin():
+    conn = psycopg2.connect(
+        dbname=dbname,
+        user=username,
+        password=password,
+        host=endpoint,
+        port=5432
+    )
+
+
+    cur = conn.cursor()
+    cur.execute("""
+            id SERIAL PRIMARY KEY
+            create table query
+            CREATE TABLE "confcost" (
+            "tags" text,
+            "configurationItemVersion" double precision,
+            "configurationItemCaptureTime" text,
+            "configurationItemCaptureDate" text,
+            "configurationStateId" bigint,
+            "awsAccountId" bigint,
+            "configurationItemStatus" text,
+            "resourceType" text,
+            "resourceId" text,
+            "awsRegion" text,
+            "identity_time_interval" text NULL,
+            "bill_billing_period_start_date" text NULL,
+            "bill_billing_period_end_date" text NULL,
+            "line_item_usage_start_date" text NULL,
+            "line_item_usage_end_date" text NULL,
+            "line_item_product_code" text NULL,
+            "line_item_operation" text NULL,
+            "line_item_resource_id" text NULL,
+            "line_item_unblended_rate" text NULL,
+            "line_item_unblended_cost" text NULL,
+            "line_item_blended_rate" text NULL,
+            "line_item_blended_cost" text NULL,
+            "line_item_usage_amount" text NULL
+            );
+    """)
+    conn.commit()
+
+    # Close the cursor and connection
+    cur.close()
+    conn.close()
+
+# ************************************************************************************************   
+         
 
 def lambda_handler(event, context):
     try:
+        table_creatin()
         config_data = get_config(event, context)
         cost_data = get_cost(event, context)
         # printD('config_data', config_data)

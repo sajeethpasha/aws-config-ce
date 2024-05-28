@@ -27,6 +27,7 @@ password = 'your-password'
 dbname = 'your-db-name'
 
 # Step 4: Establish connection to RDS instance using psycopg2
+
 conn = psycopg2.connect(
     dbname=dbname,
     user=username,
