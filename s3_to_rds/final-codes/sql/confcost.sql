@@ -1,6 +1,6 @@
 -- create table query
 CREATE TABLE confcost (
-  tags text,
+  id SERIAL PRIMARY KEY,
   configurationItemVersion double precision,
   configurationItemCaptureTime text,
   configurationItemCaptureDate text,
