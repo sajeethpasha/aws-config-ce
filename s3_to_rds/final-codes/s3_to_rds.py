@@ -146,6 +146,7 @@ def insert_db_records(df):
 # ************************************************************************************************   
 
 def table_creatin():
+    
     conn = psycopg2.connect(
         dbname=dbname,
         user=username,
@@ -192,7 +193,45 @@ def table_creatin():
     conn.close()
 
 # ************************************************************************************************   
-         
+
+
+# **********************************psycopg2**************************************************************  
+def psychopg_insert(df):
+    db_params = {
+    'dbname': 'postgres',
+    'user': 'postgres',
+    'password': 'Sajeeth123',
+    'host': 'database-1.crwpj4y0tolc.ap-south-1.rds.amazonaws.com',
+    'port': '5432'
+     }
+        
+    # Establish a connection to the database
+    conn = psycopg2.connect(**db_params)
+    cursor = conn.cursor()
+
+
+    # Insert DataFrame data into PostgreSQL
+    for i, row in df.iterrows():
+        
+        printD('row',row['resourceType'])
+        insert_query = """
+        INSERT INTO public.confcost (resourceType,configurationItemVersion,awsAccountId)
+        VALUES (%s,%s,%s)
+        """
+        conv = lambda i : i or ''
+        cursor.execute(insert_query, [
+                            conv(row['resourceType']),
+                            conv(row['configurationItemVersion']),
+                            conv(row['awsAccountId'])
+                 ] )
+
+    # # Commit the transaction
+    conn.commit()
+
+    # Close the cursor and connection
+    cursor.close()
+    conn.close()
+# ************************************************************************************************  
 
 def lambda_handler(event, context):
     try:
@@ -204,7 +243,8 @@ def lambda_handler(event, context):
         
         # Merge the data and save the merged data to CSV files
         merged_df = merge_data(config_data, cost_data)
-        insert_db_records(merged_df)
+        # insert_db_records(merged_df)
+        psychopg_insert(merged_df)
         printD('merged_data', merged_df)
         
         
