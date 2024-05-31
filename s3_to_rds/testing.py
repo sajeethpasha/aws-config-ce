@@ -213,13 +213,14 @@ def psychopg_insert(df):
         
         printD('row',row['resourceType'])
         insert_query = """
-        INSERT INTO public.confcost (resourceType,configurationItemVersion,awsAccountId)
-        VALUES (%s,%s,%s)
+        INSERT INTO public.confcost (resourceType,configurationItemVersion,awsAccountId,configurationItemVersion)
+        VALUES (%s,%s,%s,%s)
         """
         conv = lambda i : i or ''
         cursor.execute(insert_query, [
                             conv(row['resourceType']),
                             conv(row['configurationItemVersion']),
+                            conv(row['awsAccountId']),
                             conv(row['awsAccountId'])
                  ] )
 
