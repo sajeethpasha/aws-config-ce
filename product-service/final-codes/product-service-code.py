@@ -199,7 +199,7 @@ def create_table_with_schema(cursor):
     try:
         cursor.execute('''
  CREATE TABLE IF NOT EXISTS products (
-    id INTEGER,
+    id SERIAL PRIMARY KEY,
     Product TEXT,
     performsfapi double precision,
     capabilities double precision,
@@ -218,7 +218,7 @@ def create_table_with_schema(cursor):
         cursor.execute('''
      
     CREATE TABLE IF NOT EXISTS services (
-    id INTEGER,
+    id SERIAL PRIMARY KEY,,
     Service TEXT,
     ElastiCache double precision,
     Lambda double precision,
@@ -250,11 +250,13 @@ def insert_data_into_postgresql(cursor, data, table_name):
             columns = ','.join(data.columns)
             placeholders = ','.join(['%s'] * len(row))
             conflict_columns = 'id'
-            conflict_update = ','.join([f"{col} = excluded.(col)" for col in row. keys()])
-            # query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders}) ON CONFLICT ({conflict_columns}) DO UPDATE SET {conflict_update}"
-            query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+            # conflict_update = ','.join([f"{col} = excluded.(col)" for col in row. keys()])
+            conflict_update = ', '.join([f"{col} = EXCLUDED.{col}" for col in row. keys()])
+    
+            query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders}) ON CONFLICT ({conflict_columns}) DO UPDATE SET {conflict_update}"
+            # query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
             printD("query",query)
-            cursor. execute(query, tuple(row))
+            cursor.execute(query, tuple(row))
             
         cursor.connection.commit()
         print("Data inserted into Postgresql successfully")
@@ -262,17 +264,25 @@ def insert_data_into_postgresql(cursor, data, table_name):
         print("Error inserting data in PostgreSQl:", e)
 
 
-def insert_data_into_postgresql2( data, table_name):
+def insert_data_into_postgresql2( cursor,df, table_name):
     print("Inserting data into Post")
     try:
-        for index, row in data.iterrows():
-            columns = ','.join(data.columns)
-            placeholders = ','.join(['%s'] * len(row))
-            conflict_columns = 'id'
-            conflict_update = ','.join([f"{col} = excluded.(col)" for col in row. keys()])
-            query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders}) ON CONFLICT ({conflict_columns}) DO UPDATE SET {conflict_update}"
-            # cursor. execute(query, tuple(row))
-            printD("query",query)
+        columns = df.columns.tolist()
+        col_str = ', '.join(columns)
+        val_str = ', '.join([f'%({col})s' for col in columns])
+        update_str = ', '.join([f"{col} = EXCLUDED.{col}" for col in columns if col != 'id'])
+        
+        query = f"""
+        INSERT INTO {table_name} ({col_str})
+        VALUES ({val_str})
+        ON CONFLICT (id) DO UPDATE SET
+        {update_str};
+        """
+        for _, row in df.iterrows():
+         printD('query:',query)   
+         cursor.execute(query, row.to_dict())
+        
+        cursor.connection.commit() 
         
         print("Data inserted into Postgresql successfully")
     except Exception as e:
@@ -325,7 +335,7 @@ if __name__ == "__main__":
         print("Before cursor connection establish")
         cursor = conn. cursor()
         print("Cursor connection established")
-        create_table_with_schema(cursor)
+        # create_table_with_schema(cursor)
         insert_data_into_postgresql(cursor, products_data, 'products')
         insert_data_into_postgresql(cursor, services_data, 'services')
        
