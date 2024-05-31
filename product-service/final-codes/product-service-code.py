@@ -200,7 +200,7 @@ def create_table_with_schema(cursor):
         cursor.execute('''
  CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
-    Product TEXT,
+    Product Date,
     performsfapi double precision,
     capabilities double precision,
     intelligenttrialscapabilities double precision,
@@ -213,13 +213,13 @@ def create_table_with_schema(cursor):
     TriCapabilities double precision,
     Totalcosts double precision,
     Source TEXT
-);
+    );
         ''')
         cursor.execute('''
      
     CREATE TABLE IF NOT EXISTS services (
-    id SERIAL PRIMARY KEY,,
-    Service TEXT,
+    id SERIAL PRIMARY KEY,
+    Service Date,
     ElastiCache double precision,
     Lambda double precision,
     capabilities double precision,
@@ -235,7 +235,7 @@ def create_table_with_schema(cursor):
     ElasticContainerService INTEGER,
     TotalCost double precision,
     Source TEXT
-);
+     );
 
         ''')
         print("Tables are created successfully")
@@ -325,7 +325,7 @@ if __name__ == "__main__":
         folder_prefix = 'product/'
         products_latest_files = get_latest_files(bucket_name, folder_prefix, 2)
         products_data = process_products(products_latest_files)
-        printD('new Table',create_table_query(products_data,'products'))
+        print('new Table'+create_table_query(products_data,'products'))
         folder_prefix = 'services/'
         services_latest_files = get_latest_files(bucket_name, folder_prefix, 3)
         services_data = process_services(services_latest_files)
@@ -335,7 +335,7 @@ if __name__ == "__main__":
         print("Before cursor connection establish")
         cursor = conn. cursor()
         print("Cursor connection established")
-        # create_table_with_schema(cursor)
+        create_table_with_schema(cursor)
         insert_data_into_postgresql(cursor, products_data, 'products')
         insert_data_into_postgresql(cursor, services_data, 'services')
        
