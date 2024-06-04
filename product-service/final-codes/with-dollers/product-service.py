@@ -181,7 +181,12 @@ def insert_data_into_postgresql(cursor, data, table_name):
             columns = ','.join('"'+data.columns+'"')
             placeholders = ','.join(['%s'] * len(row))
             conflict_columns = 'id'
-            conflict_update = ','.join([f"{col} = excluded.{col}" for col in row.keys()])
+            # conflict_update = ','.join([f"{col} = excluded.{col}" for col in row.keys()])
+            new_col=[]
+            for col in row.keys():
+                ncl='"'+col+'"'
+                new_col.append(f"{ncl} = excluded.{ncl}")
+                conflict_update=','.join(new_col)
             query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders}) ON CONFLICT ({conflict_columns}) DO UPDATE SET {conflict_update}"
             cursor.execute(query, tuple(row))
         cursor.connection.commit()
