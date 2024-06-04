@@ -338,8 +338,6 @@ if __name__ == "__main__":
         create_table_with_schema(cursor)
         insert_data_into_postgresql(cursor, products_data, 'products')
         insert_data_into_postgresql(cursor, services_data, 'services')
-       
-        
         cursor. close()
         conn.close
     except Exception as e:

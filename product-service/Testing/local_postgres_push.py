@@ -7,7 +7,7 @@ from datetime import datetime
 
 import json
 from botocore. exceptions import ClientError
-
+from sqlalchemy import create_engine
 
 s3_client = boto3.client('s3')
 
@@ -141,7 +141,8 @@ def renameProductDf(df):
                    'Intelligent Trials - Admin': 'admin',
                    'Intelligent Trials Capabilities': 'TriCapabilities',
                    'Total costs': 'Totalcosts',
-                   'Performance Analytics':'PerformanceAnalytics'},
+                   'Performance Analytics':'PerformanceAnalytics',
+                   'Product':'Date'},
           inplace=True, errors='raise')
 
 def renameServiceDf(df):
@@ -151,7 +152,8 @@ def renameServiceDf(df):
                    'EC2-Other': 'Ec2Other',
                    'API Gateway': 'ApiGateWay',
                    'Total costs':'TotalCost',
-                   'Elastic Container Service':'ElasticContainerService'},
+                   'Elastic Container Service':'ElasticContainerService',
+                   'Service':'Date'},
           inplace=True, errors='raise')
 
 
@@ -262,17 +264,13 @@ def insert_data_into_postgresql(cursor, data, table_name):
         print("Error inserting data in PostgreSQl:", e)
 
 
-def insert_data_into_postgresql2( data, table_name):
+def insert_data_into_local_postgresql( data, table_name):
     print("Inserting data into Post")
     try:
-        for index, row in data.iterrows():
-            columns = ','.join(data.columns)
-            placeholders = ','.join(['%s'] * len(row))
-            conflict_columns = 'id'
-            conflict_update = ','.join([f"{col} = excluded.(col)" for col in row. keys()])
-            query = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders}) ON CONFLICT ({conflict_columns}) DO UPDATE SET {conflict_update}"
-            # cursor. execute(query, tuple(row))
-            printD("query",query)
+        engine = create_engine(f'postgresql://postgres:123@127.0.0.1:5432/postgres')
+        # Assuming your DataFrame is named 'df'
+        data.to_sql(table_name, engine, if_exists='replace', index=False)
+
         
         print("Data inserted into Postgresql successfully")
     except Exception as e:
@@ -331,7 +329,9 @@ if __name__ == "__main__":
         # create_table_with_schema(cursor)
         # insert_data_into_postgresql(cursor, products_data, 'products')
         # insert_data_into_postgresql(cursor, services_data, 'services')
-       
+        
+        insert_data_into_local_postgresql(products_data, 'products')
+        insert_data_into_local_postgresql(services_data, 'services')
         
         # cursor. close()
         # conn.close
