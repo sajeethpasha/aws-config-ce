@@ -118,16 +118,30 @@ def read_file_to_dataframe(bucket_name, file_key):
 
 
 def validate(date_text):
+    print("date_text: {}",  date_text)
     try:
         datetime.strptime(str(date_text), '%Y-%m-%d')
         return True
     except ValueError:
         return False
-    
-def updteDf(df,clm):
+
+def updteDf(df, clm):
+    print("inside the updteDf.....")
+
     condition = df[clm].apply(validate)
+    print("updteDf complited...")
     return df[condition]
 
+
+def renameProductDf(df):
+    df.rename(columns={'Product':'Date'},
+              inplace=True, errors='raise')
+
+
+def renameServiceDf(df):
+    df.rename(columns={'Service':'Date'},
+              inplace=True, errors='raise')
+    
    
 def replace_special_chars_with_space(text):
     chars_to_replace = "~!@#$%^&*()_+"
@@ -135,26 +149,7 @@ def replace_special_chars_with_space(text):
         text = text.replace(char, " ").strip()
     return text   
 
-def renameProductDf(df):
-    df.rename(columns={'intelligent-trials-capabilities': 'capabilities',
-                   'Intelligent Trials - Intelligent Trials Capabilities': 'Trials',
-                   'Intelligent Trials - Admin': 'admin',
-                   'Intelligent Trials Capabilities': 'TriCapabilities',
-                   'Total costs': 'Totalcosts',
-                   'Performance Analytics':'PerformanceAnalytics',
-                   'Product':'Date'},
-          inplace=True, errors='raise')
 
-def renameServiceDf(df):
-    df.rename(columns={'Relational Database Service': 'capabilities',
-                   'Elastic Load Balancing': 'loadbalancing',
-                   'EC2-Instances': 'Ec2Instances',
-                   'EC2-Other': 'Ec2Other',
-                   'API Gateway': 'ApiGateWay',
-                   'Total costs':'TotalCost',
-                   'Elastic Container Service':'ElasticContainerService',
-                   'Service':'Date'},
-          inplace=True, errors='raise')
 
 
 def process_products(products_latest_files):
@@ -187,7 +182,6 @@ def process_services(services_latest_files):
         file_name = file. split('/')[-1]
         source = file_name.split('_')[0]
         df['Source'] = [source] * len(df)
-        
         dfs.append(df)
     merged_df = pd. concat(dfs, ignore_index = True) 
     merged_df.insert(0,'id', range(1, len(merged_df) + 1))
@@ -197,53 +191,6 @@ def process_services(services_latest_files):
     # renameServiceDf(merged_df)
     return merged_df
 
-def create_table_with_schema(cursor):
-    try:
-        cursor.execute('''
- CREATE TABLE IF NOT EXISTS products (
-    id INTEGER,
-    Product TEXT,
-    performsfapi double precision,
-    capabilities double precision,
-    intelligenttrialscapabilities double precision,
-    intelligenttrialsprecompute double precision,
-    intelligenttrialsapi double precision,
-    edgesfui double precision,
-    PerformanceAnalytics double precision,
-    Trials double precision,
-    admin double precision,
-    TriCapabilities double precision,
-    Totalcosts double precision,
-    Source TEXT
-);
-        ''')
-        cursor.execute('''
-     
-    CREATE TABLE IF NOT EXISTS services (
-    id INTEGER,
-    Service TEXT,
-    ElastiCache double precision,
-    Lambda double precision,
-    capabilities double precision,
-    loadbalancing double precision,
-    Ec2Instances double precision,
-    Ec2Other double precision,
-    S3 double precision,
-    SQS double precision,
-    Inspector double precision,
-    AppSync double precision,
-    Shield double precision,
-    ApiGateWay double precision,
-    ElasticContainerService INTEGER,
-    TotalCost double precision,
-    Source TEXT
-);
-
-        ''')
-        print("Tables are created successfully")
-        cursor.connection.commit()
-    except Exception as e:
-        print("Error creating tables:", e)
 
 
 def insert_data_into_postgresql(cursor, data, table_name):
@@ -267,6 +214,7 @@ def insert_data_into_postgresql(cursor, data, table_name):
 def insert_data_into_local_postgresql( data, table_name):
     print("Inserting data into Post")
     try:
+        data['Date'] = pd.to_datetime(data['Date'])
         engine = create_engine(f'postgresql://postgres:123@127.0.0.1:5432/postgres')
         # Assuming your DataFrame is named 'df'
         data.to_sql(table_name, engine, if_exists='replace', index=False)
@@ -313,11 +261,11 @@ if __name__ == "__main__":
         folder_prefix = 'product/'
         products_latest_files = get_latest_files(bucket_name, folder_prefix, 2)
         products_data = process_products(products_latest_files)
-        printD('new Table',create_table_query(products_data,'products'))
+        # printD('new Table',create_table_query(products_data,'products'))
         folder_prefix = 'services/'
         services_latest_files = get_latest_files(bucket_name, folder_prefix, 3)
         services_data = process_services(services_latest_files)
-        printD('new Table',create_table_query(services_data,'services'))
+        # printD('new Table',create_table_query(services_data,'services'))
         
         products_data.to_csv('productsfile.csv', header=False, index=False)
         services_data.to_csv('servicesfile.csv', header=False, index=False)
@@ -330,8 +278,8 @@ if __name__ == "__main__":
         # insert_data_into_postgresql(cursor, products_data, 'products')
         # insert_data_into_postgresql(cursor, services_data, 'services')
         
-        insert_data_into_local_postgresql(products_data, 'products')
-        insert_data_into_local_postgresql(services_data, 'services')
+        insert_data_into_local_postgresql(products_data, 'test_products')
+        insert_data_into_local_postgresql(services_data, 'test_services')
         
         # cursor. close()
         # conn.close
