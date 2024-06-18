@@ -311,7 +311,7 @@ def create_table_query(df, table_name):
 if __name__ == "__main__":
     try:
         # s3_client = boto3.client('s3')
-        bucket_name = 'product-service'
+        bucket_name = 'product-service-test'
         folder_prefix = 'product/'
         products_latest_files = get_latest_files(bucket_name, folder_prefix, 2)
         products_data = process_products(products_latest_files)

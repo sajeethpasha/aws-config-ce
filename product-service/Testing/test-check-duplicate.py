@@ -9,37 +9,22 @@ from botocore.exceptions import ClientError
 
 
 def get_secret():
-    secret_name = "rdsgrafana_secret_123"
-    region_name = "us-east-1"
+    db_host = 'database-1.crwpj4y0tolc.ap-south-1.rds.amazonaws.com'
+    db_port = '5432'
+    db_user = 'postgres'
+    db_password = 'Sajeeth123'
+    db_name = 'postgres'
 
-    session = boto3.session.Session()
-    client = session.client(
-        service_name='secretsmanager',
-        region_name=region_name
-    )
-
-    try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
-        )
-    except ClientError as e:
-        raise e
-
-    secret = json.loads(get_secret_value_response['SecretString'])
-    db_host = secret["host"]
-    db_port = secret["port"]
-    db_user = secret["username"]
-    db_password = secret["password"]
-    db_name = secret["dbname"]
+    # Connect to the PostgreSQL database
     conn = psycopg2.connect(
-        host = db_host,
-        port = db_port,
-        dbname = db_name,
-        user = db_user,
-        password = db_password
-        )
-
-    return conn
+        host=db_host,
+        port=db_port,
+        dbname=db_name,
+        user=db_user,
+        password=db_password
+    )
+    return conn   
+    # return conn
 
 def get_latest_files(bucket_name, folder_prefix, max_keys):
     response = s3_client.list_objects_v2(
@@ -152,7 +137,7 @@ def create_table_with_schema(cursor):
         cursor.execute("""
           CREATE TABLE IF NOT EXISTS test_services (  id serial primary key,
                             Date date,
-                            "ElastiCache" double precision,
+                            "ElastiCache($)" double precision,
                             "Lambda($)" double precision,
                             "Relational Database Service($)" double precision,
                             "Elastic Load Balancing($)" double precision,
@@ -213,7 +198,7 @@ def updteDf(df, clm):
 
 
 def renameProductDf(df):
-    df.rename(columns={'products':'Date'},
+    df.rename(columns={'Product':'Date'},
               inplace=True, errors='raise')
 
 
@@ -226,9 +211,9 @@ if __name__ == "__main__":
     try:
         print('starting code 2')
         s3_client = boto3.client('s3')
-        bucket_name = 'sp-bucket-123'
+        bucket_name = 'product-service-test'
 
-        folder_prefix = 'raw/products/'
+        folder_prefix = 'product/'
         # bucket_name = 'product-service'
         # folder_prefix = 'product/'
         products_latest_files = get_latest_files(bucket_name, folder_prefix, 2)
@@ -238,20 +223,20 @@ if __name__ == "__main__":
         print("products_data fetched.....")
 
         print("write dataframe to S3 location")
-        products_data.to_csv("s3://sp-bucket-123/samples/products_data.csv", header=True, index=False)
+        # products_data./to_csv("s3://sp-bucket-123/samples/products_data.csv", header=True, index=False)
 
-        folder_prefix = 'raw/services/'
+        folder_prefix = 'services/'
         # folder_prefix = 'services/'
         services_latest_files = get_latest_files(bucket_name, folder_prefix, 3)
         services_data = process_services(services_latest_files)
-        services_data.to_csv("s3://sp-bucket-123/samples/services_data.csv", header=True, index=False)
+        # services_data.to_csv("s3://sp-bucket-123/samples/services_data.csv", header=True, index=False)
 
         conn = get_secret()
 
         print("Before cursor connection establish")
         cursor = conn.cursor()
         print("Cursor connection established")
-        create_table_with_schema(cursor)
+        # create_table_with_schema(cursor)
         insert_data_into_postgresql(cursor, products_data, 'test_products')
         insert_data_into_postgresql(cursor, services_data, 'test_services')
         cursor.close()
