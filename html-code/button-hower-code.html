@@ -5,32 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button with Hover Tooltip</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
         .tooltip-container {
             position: relative;
             display: inline-block;
+            color: #333; /* Default text color for the container */
         }
 
         .tooltip-button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Button text color */
+            border: none;
+            border-radius: 6px;
         }
 
         .tooltip-container .tooltip-text {
             visibility: hidden;
-            width: 120px;
-            background-color: black;
-            color: #fff;
+            width: 160px; /* Increased width for better readability */
+            background-color: #007bff; /* Tooltip background color */
+            color: #fff; /* Tooltip text color */
             text-align: center;
             border-radius: 6px;
-            padding: 5px;
+            padding: 16px 8px; /* Increased padding for better spacing */
             position: absolute;
             z-index: 1;
             bottom: 125%; /* Position the tooltip above the button */
             left: 50%;
-            margin-left: -60px;
+            margin-left: -80px; /* Adjusted margin for centering */
             opacity: 0;
             transition: opacity 0.3s;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added box shadow for depth */
         }
 
         .tooltip-container .tooltip-text::after {
@@ -41,19 +53,50 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: black transparent transparent transparent;
+            border-color: #007bff transparent transparent transparent;
         }
 
         .tooltip-container:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
         }
+
+        .info-header {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: #fff; /* Header text color */
+            background-color: #007bff; /* Header background color */
+            padding: 8px 16px; /* Padding for header */
+            border-radius: 6px; /* Rounded corners for header */
+            display: inline-block; /* Display inline with button */
+        }
+
+        .info-links {
+            margin-left: 10px;
+            color: #fff; /* Link text color */
+        }
+
+        .info-links a {
+            text-decoration: none;
+            color: #ffd700; /* Link text color */
+            transition: color 0.3s; /* Smooth color transition on hover */
+        }
+
+        .info-links a:hover {
+            color: #ffd700; /* Change color on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
     </style>
 </head>
 <body>
     <div class="tooltip-container">
-        <button class="tooltip-button">Hover over me</button>
-        <div class="tooltip-text">This is a custom tooltip!</div>
+        <div class="info-header">Explore: Cost Overview | Data</div>
+        <button class="tooltip-button">&#x1F6C8;</button>
+        <div class="tooltip-text">
+            This is a custom tooltip!
+        </div>
     </div>
 </body>
 </html>
