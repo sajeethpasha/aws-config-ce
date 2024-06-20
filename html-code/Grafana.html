@@ -10,23 +10,28 @@
             position: relative;
             display: inline-block;
             cursor: pointer;
+            margin-left: 100px;
+       color: rgb(170, 172, 155);
+      
         }
 
         .tooltip .tooltiptext {
+            
             visibility: hidden;
-            background-color: #555;
+            background-color: blue;
             color: #fff;
             text-align: center;
-            border-radius: 5px;
-            padding: 5px;
+            border-radius: 0px;
+            padding: 1px;
             position: absolute;
             z-index: 1;
             top: 50%;
-            left: -210px;
+            left: -250px;
             margin-top: -15px;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.1s;
             white-space: nowrap;
+            width:300px%
         }
 
         .tooltip .tooltiptext::after {
@@ -48,6 +53,7 @@
         .content-container {
             padding: 30px 10px 10px 10px;
             background-color: transparent;
+             width: 100%;
         }
 
         .heading-container {
@@ -57,12 +63,12 @@
 
         .heading-text {
             margin: 0;
-            font-size: 24px;
+            font-size: 30px;
             color: rgb(170, 172, 155);
         }
 
         .icon {
-            font-size: 24px;
+            font-size: 31px;
             color: rgb(170, 172, 155);
             cursor: pointer;
             margin-left: auto;
@@ -75,8 +81,9 @@
             <h2 class="heading-text">Intelligent Trials Costs Reporting | Overview</h2>
         </div>
         <div class="tooltip">
-            <i id="infoIcon" class="fas fa-info-circle icon"></i>
-            <span class="tooltiptext">Dashboard Information</span>
+            <i id="infoIcon" class="tooltip" style="font-size:20px"> &#x1F6C8; </i>
+           
+            <span class="tooltiptext">Dashboard Information fdsfas fddf  fsa    `</span>
         </div>
     </div>
 
