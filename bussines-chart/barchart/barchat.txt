@@ -164,6 +164,12 @@ return {
 
 -- -------------------------
 
+-- Step 1: Create a temporary table for distinct services
+create TEMP TABLE temp_services AS
+SELECT DISTINCT service FROM prodserv  where service in ('AWS Shield','AWS AppSync','AWS Lambda','Amazon Simple Storage Service') ORDER BY service;
+
+
+
 -- Step 2 and Step 3: Generate crosstab output and filter by product
 SELECT * FROM (
     SELECT product, 
