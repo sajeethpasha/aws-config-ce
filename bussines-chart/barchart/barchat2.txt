@@ -1,0 +1,215 @@
+SELECT
+    service,
+    MAX(CASE WHEN product = 'edgesfui' THEN cost ELSE 0 END) AS "edgesfui",
+    MAX(CASE WHEN product = 'itpaapi' THEN cost ELSE 0 END) AS "itpaapi"
+FROM prodserv where service in ('Amazon MQ','Amazon OpenSearch Service','Amazon Relational Database Service','Amazon SageMaker','Amazon Simple Queue Service')
+GROUP BY service
+ORDER BY service;
+
+
+
+-- -----------------------------Futnion ----------
+
+const posList = [
+  'left',
+  'right',
+  'top',
+  'bottom',
+  'inside',
+  'insideTop',
+  'insideLeft',
+  'insideRight',
+  'insideBottom',
+  'insideTopLeft',
+  'insideTopRight',
+  'insideBottomLeft',
+  'insideBottomRight'
+];
+
+context.echarts.configParameters = {
+  rotate: {
+    min: -90,
+    max: 90
+  },
+  align: {
+    options: {
+      left: 'left',
+      center: 'center',
+      right: 'right'
+    }
+  },
+  verticalAlign: {
+    options: {
+      top: 'top',
+      middle: 'middle',
+      bottom: 'bottom'
+    }
+  },
+  position: {
+    options: posList.reduce(function (map, pos) {
+      map[pos] = pos;
+      return map;
+    }, {})
+  },
+  distance: {
+    min: 0,
+    max: 100
+  }
+};
+
+context.echarts.config = {
+  rotate: 90,
+  align: 'left',
+  verticalAlign: 'middle',
+  position: 'insideBottom',
+  distance: 15,
+  onChange: function () {
+    const labelOption = {
+      rotate: context.echarts.config.rotate,
+      align: context.echarts.config.align,
+      verticalAlign: context.echarts.config.verticalAlign,
+      position: context.echarts.config.position,
+      distance: context.echarts.config.distance
+    };
+    context.panel.chart.setOption({
+      series: [
+        {
+          label: labelOption
+        },
+        {
+          label: labelOption
+        },
+        {
+          label: labelOption
+        },
+        {
+          label: labelOption
+        }
+      ]
+    });
+  }
+};
+const labelOption = {
+  show: true,
+  position: context.echarts.config.position,
+  distance: context.echarts.config.distance,
+  align: context.echarts.config.align,
+  verticalAlign: context.echarts.config.verticalAlign,
+  rotate: context.echarts.config.rotate,
+  formatter: '{c}  {name|{a}}',
+  fontSize: 16,
+  rich: {
+    name: {}
+  }
+};
+
+
+const dta = context.editor.dataset.source
+console.log(context.editor.dataset.source)
+const serviceNames = dta.slice(1).map(row => row[0]);
+
+console.log(serviceNames);
+
+var productx = dta[0].slice(1).map(item => item.replace("A:", ""));
+
+var sr1_name = dta[1][0];
+var sr1_val = dta[1].slice(1);
+
+
+const sr2_name = dta[2][0];
+const sr2_val = dta[2].slice(1);
+
+
+const sr3_name = dta[3][0];
+const sr3_val = dta[3].slice(1);
+
+
+const sr4_name = dta[4][0];
+const sr4_val = dta[4].slice(1);
+
+
+return {
+
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {
+    data: serviceNames
+  },
+  toolbox: {
+    show: true,
+    orient: 'vertical',
+    left: 'right',
+    top: 'center',
+    feature: {
+      mark: { show: true },
+      dataView: { show: true, readOnly: false },
+      magicType: { show: true, type: ['line', 'bar', 'stack'] },
+      restore: { show: true },
+      saveAsImage: { show: true }
+    }
+  },
+  xAxis: [
+    {
+      type: 'category',
+      axisTick: { show: false },
+      data: productx
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
+  series: [
+    {
+      name: sr1_name,
+      type: 'bar',
+      barGap: 0,
+      label: labelOption,
+      emphasis: {
+        focus: 'series'
+      },
+      data: sr1_val
+    },
+    {
+      name: sr2_name,
+      type: 'bar',
+      label: labelOption,
+      emphasis: {
+        focus: 'series'
+      },
+      data: sr2_val
+    },
+
+    {
+      name: sr3_name,
+      type: 'bar',
+      label: labelOption,
+      emphasis: {
+        focus: 'series'
+      },
+      data: sr3_val
+    },
+
+    {
+      name: sr4_name,
+      type: 'bar',
+      label: labelOption,
+      emphasis: {
+        focus: 'series'
+      },
+      data: sr4_val
+    }
+
+
+  ],
+  grid: {
+    bottom: "3%",
+    containLabel: true,
+    left: "3%",
+  },
+};
