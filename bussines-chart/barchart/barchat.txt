@@ -1,0 +1,183 @@
+const posList = [
+  'left',
+  'right',
+  'top',
+  'bottom',
+  'inside',
+  'insideTop',
+  'insideLeft',
+  'insideRight',
+  'insideBottom',
+  'insideTopLeft',
+  'insideTopRight',
+  'insideBottomLeft',
+  'insideBottomRight'
+];
+
+context.echarts.configParameters = {
+  rotate: {
+    min: -90,
+    max: 90
+  },
+  align: {
+    options: {
+      left: 'left',
+      center: 'center',
+      right: 'right'
+    }
+  },
+  verticalAlign: {
+    options: {
+      top: 'top',
+      middle: 'middle',
+      bottom: 'bottom'
+    }
+  },
+  position: {
+    options: posList.reduce(function (map, pos) {
+      map[pos] = pos;
+      return map;
+    }, {})
+  },
+  distance: {
+    min: 0,
+    max: 100
+  }
+};
+
+context.echarts.config = {
+  rotate: 90,
+  align: 'left',
+  verticalAlign: 'middle',
+  position: 'insideBottom',
+  distance: 15,
+  onChange: function () {
+    const labelOption = {
+      rotate: context.echarts.config.rotate,
+      align: context.echarts.config.align,
+      verticalAlign: context.echarts.config.verticalAlign,
+      position: context.echarts.config.position,
+      distance: context.echarts.config.distance
+    };
+    context.panel.chart.setOption({
+      series: [
+        {
+          label: labelOption
+        },
+        {
+          label: labelOption
+        },
+        {
+          label: labelOption
+        },
+        {
+          label: labelOption
+        }
+      ]
+    });
+  }
+};
+const labelOption = {
+  show: true,
+  position: context.echarts.config.position,
+  distance: context.echarts.config.distance,
+  align: context.echarts.config.align,
+  verticalAlign: context.echarts.config.verticalAlign,
+  rotate: context.echarts.config.rotate,
+  formatter: '{c}  {name|{a}}',
+  fontSize: 16,
+  rich: {
+    name: {}
+  }
+};
+
+var labelData = context.editor.dataset.source[0];
+var edgesfui = context.editor.dataset.source[1];
+const itpaapi = context.editor.dataset.source[2];
+
+console.log(context.editor.dataset.source[0])
+
+return {
+
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+  legend: {
+    data: labelData
+  },
+  toolbox: {
+    show: true,
+    orient: 'horizontal',
+    left: 'right',
+    top: 'center',
+    feature: {
+      mark: { show: true },
+      dataView: { show: true, readOnly: false },
+      magicType: { show: true, type: ['line', 'bar', 'stack'] },
+      restore: { show: true },
+      saveAsImage: { show: true }
+    }
+  },
+  xAxis: [
+    {
+      type: 'category',
+      axisTick: { show: false },
+      data: labelData
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
+  series: [
+    {
+      name: 'edgesfui',
+      type: 'bar',
+      barGap: 0,
+      label: labelOption,
+      emphasis: {
+        focus: 'series'
+      },
+      data: edgesfui
+    },
+    {
+      name: 'itpaapi',
+      type: 'bar',
+      label: labelOption,
+      emphasis: {
+        focus: 'series'
+      },
+      data: itpaapi
+    }
+  ],
+  grid: {
+    bottom: "3%",
+    containLabel: true,
+    left: "3%",
+  },
+};
+
+
+-- -------------------------
+
+-- Step 2 and Step 3: Generate crosstab output and filter by product
+SELECT * FROM (
+    SELECT product, 
+           COALESCE("AWS Shield", 0) AS "AWS Shield", 
+           COALESCE("AWS AppSync", 0) AS "AWS AppSync", 
+           COALESCE("AWS Lambda", 0) AS "AWS Lambda", 
+           COALESCE("Amazon Simple Storage Service", 0) AS "Amazon Simple Storage Service"
+    FROM crosstab(
+        $$SELECT product, service, cost FROM (select * from prodserv  where service in ('AWS Shield','AWS AppSync','AWS Lambda','Amazon Simple Storage Service') )  ORDER BY product, service$$,
+        $$SELECT service FROM temp_services ORDER BY service$$
+    ) AS ct(product VARCHAR, 
+            "AWS Shield" FLOAT, 
+            "AWS AppSync" FLOAT, 
+            "AWS Lambda" FLOAT, 
+            "Amazon Simple Storage Service" FLOAT)
+) AS subquery
+WHERE product in ( 'edgesfui','itpaapi' );
