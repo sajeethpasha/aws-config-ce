@@ -70,6 +70,8 @@ def insert_data_into_postgresql(cursor, data, table_name):
         print("Data inserted into Postgresql successfully")
     except Exception as e:
         print("Error inserting data in PostgreSQl:", e)
+        
+        
 
 
 def process_data():
