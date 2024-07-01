@@ -14,7 +14,7 @@ bucket = 'orange-123'
 s3 = boto3.client('s3')
 
 
-def get_cost(event, context):
+def get_cost():
     s3 = boto3.client('s3')
     bucket = 'akhil-s3-bucket-760'
     key = 'cost//sample-data-export/data/BILLING_PERIOD=2024-05/sample-data-export-00001.csv.gz'
