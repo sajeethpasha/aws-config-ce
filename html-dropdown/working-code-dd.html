@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select Product</title>
+</head>
+<body>
+  <div>
+    <label for="product-selector">Select Product:</label>
+    <select id="product-selector" onchange="
+      console.log('redirectToProduct......');
+      const selectedValue = this.value;
+      console.log('selectedValue: ' + selectedValue);
+      const currentUrl = window.location.href;
+      console.log('current URL: ' + currentUrl);
+
+      if (selectedValue) {
+        // Update the 'var-product_name' parameter
+        let updatedUrl = currentUrl.includes('var-product_name=') 
+          ? currentUrl.replace(/(var-product_name=)[^\&]+/, '$1' + selectedValue) 
+          : (currentUrl.includes('?') 
+              ? `${currentUrl}&var-product_name=${selectedValue}` 
+              : `${currentUrl}?var-product_name=${selectedValue}`);
+
+        console.log('updated URL: ' + updatedUrl);
+        window.history.replaceState({}, '', updatedUrl);
+		
+			window.location.href = updatedUrl;
+		   // Prevent default form submission
+      event.preventDefault();
+      }
+    ">
+      <option value="">Select a product</option>
+      <option value="Product1">Product1</option>
+      <option value="Product2">Product2</option>
+      <option value="Product3">Product3</option>
+    </select>
+  </div>
+</body>
+</html>
