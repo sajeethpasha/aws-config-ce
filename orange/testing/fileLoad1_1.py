@@ -3,6 +3,9 @@ import os
 
 # Ensure the file path is correct
 file_path = r'D:\supports\akhil\orange_data\testing\orange-data.csv'
+
+
+zip_file = r'D:\supports\akhil\orange_data\testing\Map-orange-cost-data.gz'
 file_output_dir = r'D:\supports\akhil\orange_data\out'
 output_file_path = os.path.join(file_output_dir, 'data.csv')
 
