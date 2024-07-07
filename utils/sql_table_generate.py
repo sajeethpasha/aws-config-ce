@@ -32,5 +32,14 @@ def create_table_query(df, table_name):
     
     # Remove the last comma and add closing parenthesis
     create_table_sql = create_table_sql.rstrip(',\n') + "\n);"
-    
+    print(f"******************************{table_name}************************")
+    print(create_table_sql)
+    print("*******************************************************************")
     return create_table_sql
+
+
+
+
+if __name__ == "__main__":
+    print('Starting data processing...')
+    # create_table_query(file_path, output_dir, bucket, out_file)
