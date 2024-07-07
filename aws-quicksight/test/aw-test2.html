@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multiple Iframes Example</title>
+    <style>
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        // Function to set target="_self" for all links within an iframe
+        function setIframeLinksTargetToSelf(iframe) {
+            iframe.onload = function() {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                const links = iframeDocument.getElementsByTagName('a');
+                for (let i = 0; i < links.length; i++) {
+                    links[i].setAttribute('target', '_self');
+                }
+            };
+        }
+        
+        // Wait for the window to load to ensure all iframes are available
+        window.onload = function() {
+            const iframes = document.getElementsByTagName('iframe');
+            for (let i = 0; i < iframes.length; i++) {
+                setIframeLinksTargetToSelf(iframes[i]);
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Embedded Dashboards</h1>
+    <iframe src="http://127.0.0.1:3000/d-solo/edpxpl5qzry0we/bussines-charts?orgId=1&from=1720351017079&to=1720372617079&panelId=1" id="iframe1"></iframe>
+    <iframe src="http://127.0.0.1:3000/d-solo/edpxpl5qzry0we/bussines-charts?orgId=1&from=1720351017079&to=1720372617079&panelId=2" id="iframe2"></iframe>
+    <iframe src="http://127.0.0.1:3000/d-solo/edpxpl5qzry0we/bussines-charts?orgId=1&from=1720351017079&to=1720372617079&panelId=3" id="iframe3"></iframe>
+    <iframe src="http://127.0.0.1:3000/d-solo/edpxpl5qzry0we/bussines-charts?orgId=1&from=1720351017079&to=1720372617079&panelId=4" id="iframe4"></iframe>
+</body>
+</html>
