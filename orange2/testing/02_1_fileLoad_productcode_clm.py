@@ -64,6 +64,13 @@ def get_cost():
         # Add a 'date' column
         df['date'] = df['line_item_usage_start_date'].apply(lambda x: x[:10])
         
+        # Rename columns
+        df = df.rename(columns={
+            'line_item_product_code': 'service',
+            'line_item_unblended_cost': 'service_cost',
+            'line_item_resource_id': 'resource_id'
+        })
+        
         # Now you can work with the entire DataFrame
         print("CSV file read and filtered successfully!")
         print(df.head())
@@ -90,15 +97,15 @@ def process_data():
     
     # Apply transformations
     df = df.drop(columns=['line_item_usage_start_date'])
-    df = df[['date', 'line_item_resource_id', 'line_item_product_code', 'line_item_unblended_cost', 'product']]
+    df = df[['date', 'resource_id', 'service', 'service_cost', 'product']]
     
-    df = df.groupby(['date', 'line_item_product_code', 'product'], as_index=False).agg(
+    df = df.groupby(['date', 'service', 'product'], as_index=False).agg(
         {
-            'line_item_unblended_cost': 'sum',
-            'line_item_resource_id': lambda x: ','.join(set(x))
+            'service_cost': 'sum',
+            'resource_id': lambda x: ','.join(set(x))
         }
     )
-    df['product_cost'] = df.groupby(['date', 'product'])['line_item_unblended_cost'].transform('sum')
+    df['product_cost'] = df.groupby(['date', 'product'])['service_cost'].transform('sum')
     df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
     df = df.sort_values(by='date', ascending=False)
     
