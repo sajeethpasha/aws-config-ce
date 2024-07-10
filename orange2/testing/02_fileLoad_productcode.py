@@ -92,9 +92,10 @@ def process_data():
     df = df.drop(columns=['line_item_usage_start_date'])
     df = df[['date', 'line_item_resource_id', 'line_item_product_code', 'line_item_unblended_cost', 'product']]
     
-    df = df.groupby(['date', 'line_item_resource_id', 'line_item_product_code', 'product'], as_index=False).agg(
+    df = df.groupby(['date', 'line_item_product_code', 'product'], as_index=False).agg(
         {
-            'line_item_unblended_cost': 'sum'
+            'line_item_unblended_cost': 'sum',
+            'line_item_resource_id': lambda x: ','.join(set(x))
         }
     )
     df['product_cost'] = df.groupby(['date', 'product'])['line_item_unblended_cost'].transform('sum')
