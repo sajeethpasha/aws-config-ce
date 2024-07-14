@@ -1,0 +1,7 @@
+minOver({date}, [{date}], PRE_AGG)
+
+
+maxOver({date}, [{date}], PRE_AGG)
+
+
+ifelse({date} >= truncDate("DD", now()) - 7, 1, 0)
